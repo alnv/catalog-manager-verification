@@ -6,6 +6,7 @@ $GLOBALS['TL_LANG']['tl_content']['catalogAfterVerificationMessage'] = [ 'Verifi
 $GLOBALS['TL_LANG']['tl_content']['catalogDefaultVerificationMessage'] = [ 'Verifizierungs-Anzeigentext', 'Dieser Anzeigentext wird standardmässig angezeigt, wenn ein Datensatz bereits verifiziert ist.' ];
 $GLOBALS['TL_LANG']['tl_content']['catalogAfterVerificationHandlerType'] = [ 'Nach der Verifizierung', 'Hier können Sie auswählen, was nach einer erfolgreichen Verifizierung geschehen soll.' ];
 $GLOBALS['TL_LANG']['tl_content']['catalogUniversalViewID'] = [ 'Frontend-Editing Modul', 'Bitte wählen Sie ein Frontend-Editing Modul, welches verifiziert werden soll.' ];
+$GLOBALS['TL_LANG']['tl_content']['catalogVerificationCustomTpl'] = [ 'Individuelles Template', 'Hier können Sie ein individuelles Template auswählen.' ];
 $GLOBALS['TL_LANG']['tl_content']['catalogAfterVerificationRedirect'] = [ 'Weiterleitungsseite', 'Bitte wählen Sie eine Weiterleitungsseite aus.' ];
 $GLOBALS['TL_LANG']['tl_content']['catalogNotificationID'] = [ 'Benachrichtigung', 'Hier können Sie eine Benachrichtigung schicken.' ];
 
