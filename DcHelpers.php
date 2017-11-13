@@ -74,4 +74,10 @@ class DcHelpers extends \Backend {
 
         return $arrChoices;
     }
+
+
+    public function getCustomVerificationTemplates() {
+
+        return $this->getTemplateGroup('ce_verification_');
+    }
 }
