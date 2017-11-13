@@ -4,7 +4,7 @@ $GLOBALS['TL_DCA']['tl_content']['palettes']['__selector__'][] = 'catalogAfterVe
 $GLOBALS['TL_DCA']['tl_content']['subpalettes']['catalogAfterVerificationHandlerType_message'] = 'catalogAfterVerificationMessage';
 $GLOBALS['TL_DCA']['tl_content']['subpalettes']['catalogAfterVerificationHandlerType_staticRedirect'] = 'catalogAfterVerificationRedirect';
 $GLOBALS['TL_DCA']['tl_content']['subpalettes']['catalogAfterVerificationHandlerType_detailRedirect'] = 'catalogAfterVerificationRedirect';
-$GLOBALS['TL_DCA']['tl_content']['palettes']['catalogEntityVerification'] = '{type_legend},type,headline;{catalog_verification_legend},catalogUniversalViewID,catalogNotificationID,catalogDefaultVerificationMessage,catalogAfterVerificationHandlerType;{template_legend:hide},customTpl;{protected_legend:hide},protected;{expert_legend:hide},guests,cssID,space;{invisible_legend:hide},invisible,start,stop';
+$GLOBALS['TL_DCA']['tl_content']['palettes']['catalogEntityVerification'] = '{type_legend},type,headline;{catalog_verification_legend},catalogUniversalViewID,catalogNotificationID,catalogDefaultVerificationMessage,catalogAfterVerificationHandlerType;{template_legend:hide},catalogVerificationCustomTpl;{protected_legend:hide},protected;{expert_legend:hide},guests,cssID,space;{invisible_legend:hide},invisible,start,stop';
 
 $GLOBALS['TL_DCA']['tl_content']['fields']['catalogUniversalViewID'] = [
 
@@ -126,6 +126,24 @@ $GLOBALS['TL_DCA']['tl_content']['fields']['catalogDefaultVerificationMessage'] 
         'tl_class' => 'clr',
         'allowHtml' => true
     ],
+
+    'exclude' => true,
+    'sql' => "varchar(128) NOT NULL default ''"
+];
+
+$GLOBALS['TL_DCA']['tl_content']['fields']['catalogVerificationCustomTpl'] = [
+
+    'label' => &$GLOBALS['TL_LANG']['tl_content']['catalogVerificationCustomTpl'],
+    'inputType' => 'select',
+
+    'eval' => [
+
+        'includeBlankOption'=>true,
+        'tl_class' => 'w50',
+        'chosen'=>true
+    ],
+
+    'options_callback' => [ 'CMVerification\DcHelpers', 'getCustomVerificationTemplates' ],
 
     'exclude' => true,
     'sql' => "varchar(128) NOT NULL default ''"
