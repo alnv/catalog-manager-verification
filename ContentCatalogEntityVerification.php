@@ -21,6 +21,11 @@ class ContentCatalogEntityVerification extends \ContentElement {
             return $objTemplate->parse();
         }
 
+        if ( $this->catalogVerificationCustomTpl ) {
+
+            $this->strTemplate = $this->catalogVerificationCustomTpl;
+        }
+
         return parent::generate();
     }
 
