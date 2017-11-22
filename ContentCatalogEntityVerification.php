@@ -53,12 +53,21 @@ class ContentCatalogEntityVerification extends \ContentElement {
         $blnExist =  $objEntity->numRows ? true : false;
         $arrRow = $objEntity->row();
 
+        if ( isset( $GLOBALS['TL_HOOKS']['customiseVerificationProcess'] ) && is_array( $GLOBALS['TL_HOOKS']['customiseVerificationProcess'] ) ) {
+
+            foreach ( $GLOBALS['TL_HOOKS']['customiseVerificationProcess'] as $callback ) {
+
+                $this->import( $callback[0] );
+                $this->{$callback[0]}->{$callback[1]}( $arrRow, $objModule, $blnExist, $this );
+            }
+        }
+
         if ( $blnExist ) {
 
             $arrTokens = [];
             $blnSuccess = true;
 
-            $this->Database->prepare( sprintf('UPDATE %s SET %s = ? WHERE id = ?', $objModule->catalogTablename, $objModule->catalogIsVerifiedColumn) )->execute( '1', $objEntity->id );
+            $this->Database->prepare( sprintf('UPDATE %s SET %s = ?, %s = ? WHERE id = ?', $objModule->catalogTablename, $objModule->catalogIsVerifiedColumn, $objModule->catalogVerificationCodeColumn) )->execute( '1', '', $objEntity->id );
 
             $objFieldBuilder = new CatalogFieldBuilder();
             $objFieldBuilder->initialize( $objModule->catalogTablename );
@@ -92,7 +101,6 @@ class ContentCatalogEntityVerification extends \ContentElement {
         }
 
         $this->Template->masterUrl = $strMasterUrl;
-        $this->Template->entityExist = $blnExist;
         $this->Template->success = $blnSuccess;
         $this->Template->output = $strOutput;
         $this->Template->entity = $arrEntity;
