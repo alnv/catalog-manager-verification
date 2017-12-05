@@ -2,16 +2,17 @@
 
 namespace CMVerification;
 
-class NotificationTokens {
+class NotificationTokens extends \Frontend {
 
 
     public function setCustomTokens( $arrTokens, $arrData, $objModule ) {
 
         $strVerifySiteId = $objModule->catalogVerificationSite;
+        $objCatalog = $this->Database->prepare('SELECT * FROM tl_catalog WHERE tablename = ?')->limit(1)->execute( $objModule->catalogTablename );
 
-        if ( !$strVerifySiteId || !$objModule->catalogVerificationCodeColumn ) return $arrTokens;
+        if ( !$strVerifySiteId || !$objCatalog->catalogVerificationCodeColumn ) return $arrTokens;
 
-        $strVerificationCode = $arrData[ $objModule->catalogVerificationCodeColumn ] ?: '';
+        $strVerificationCode = $arrData[ $objCatalog->catalogVerificationCodeColumn ] ?: '';
 
         if ( !$strVerificationCode ) return $arrTokens;
 
