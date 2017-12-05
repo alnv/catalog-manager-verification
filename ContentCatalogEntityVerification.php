@@ -34,8 +34,9 @@ class ContentCatalogEntityVerification extends \ContentElement {
 
         $strVerificationCode = \Input::get('auto_item');
         $objModule = $this->Database->prepare('SELECT * FROM tl_module WHERE id = ?')->execute( $this->catalogUniversalViewID );
+        $objCatalog = $this->Database->prepare('SELECT * FROM tl_catalog WHERE tablename = ?')->limit(1)->execute( $objModule->catalogTablename );
 
-        if ( !$strVerificationCode || !$objModule->numRows ) {
+        if ( !$strVerificationCode || !$objModule->numRows || !$objCatalog->numRows || !$objCatalog->useEntityVerification ) {
 
             global $objPage;
 
@@ -49,7 +50,7 @@ class ContentCatalogEntityVerification extends \ContentElement {
         $strMasterUrl = '';
         $blnSuccess = false;
         $strOutput = $this->catalogDefaultVerificationMessage;
-        $objEntity = $this->Database->prepare( sprintf('SELECT * FROM %s WHERE %s = ? AND %s = ?', $objModule->catalogTablename, $objModule->catalogVerificationCodeColumn, $objModule->catalogIsVerifiedColumn ) )->limit(1)->execute( $strVerificationCode, '' );
+        $objEntity = $this->Database->prepare( sprintf('SELECT * FROM %s WHERE %s = ? AND %s = ?', $objModule->catalogTablename, $objCatalog->catalogVerificationCodeColumn, $objCatalog->catalogIsVerifiedColumn ) )->limit(1)->execute( $strVerificationCode, '' );
         $blnExist =  $objEntity->numRows ? true : false;
         $arrRow = $objEntity->row();
 
@@ -58,7 +59,7 @@ class ContentCatalogEntityVerification extends \ContentElement {
             foreach ( $GLOBALS['TL_HOOKS']['customiseVerificationProcess'] as $callback ) {
 
                 $this->import( $callback[0] );
-                $this->{$callback[0]}->{$callback[1]}( $arrRow, $objModule, $blnExist, $this );
+                $this->{$callback[0]}->{$callback[1]}( $arrRow, $objModule, $objCatalog, $blnExist, $this );
             }
         }
 
@@ -67,7 +68,7 @@ class ContentCatalogEntityVerification extends \ContentElement {
             $arrTokens = [];
             $blnSuccess = true;
 
-            $this->Database->prepare( sprintf('UPDATE %s SET %s = ?, %s = ? WHERE id = ?', $objModule->catalogTablename, $objModule->catalogIsVerifiedColumn, $objModule->catalogVerificationCodeColumn) )->execute( '1', '', $objEntity->id );
+            $this->Database->prepare( sprintf('UPDATE %s SET %s = ?, %s = ? WHERE id = ?', $objModule->catalogTablename, $objCatalog->catalogIsVerifiedColumn, $objCatalog->catalogVerificationCodeColumn ) )->execute( '1', '', $objEntity->id );
 
             $objFieldBuilder = new CatalogFieldBuilder();
             $objFieldBuilder->initialize( $objModule->catalogTablename );
