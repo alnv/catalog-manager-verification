@@ -12,7 +12,7 @@ class DcHelpers extends \Backend {
 
         $arrReturn = [];
         $arrForbiddenTypes = [ 'upload' ];
-        $strTablename = $dc->activeRecord->catalogTablename;
+        $strTablename = $dc->activeRecord->tablename;
 
         if ( Toolkit::isEmpty( $strTablename ) ) return $arrReturn;
 
