@@ -1,7 +1,8 @@
 <?php
 
 $GLOBALS['TL_HOOKS']['catalogManagerSetCustomNotificationTokens'][] = [ 'CMVerification\NotificationTokens', 'setCustomTokens' ];
-$GLOBALS['TL_HOOKS']['catalogManagerFrontendEditingOnSave'][] = [ 'CMVerification\VerificationSetup', 'setUpAttributesOnDuplication' ];
+$GLOBALS['TL_HOOKS']['catalogManagerOnCreateDataContainerArray'][] = [ 'CMVerification\VerificationDcBuilder', 'setVerification' ];
+$GLOBALS['TL_HOOKS']['catalogManagerFrontendEditingOnSave'][] = [ 'CMVerification\VerificationSetup', 'setUpVerificationAttributes' ];
 
 array_insert( $GLOBALS['TL_CTE'], 4, [
 
